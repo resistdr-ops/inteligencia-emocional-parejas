@@ -14,6 +14,7 @@
   color-scheme:light;
 }
 html,body{height:100%}
+[hidden]{display:none!important}
 body{margin:0;background:#1b1312;color:var(--ink);font-family:var(--body);overflow:hidden;
   padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
 .viewport{position:fixed;inset:0;display:grid;place-items:center}
@@ -138,6 +139,12 @@ button.ui:focus-visible{outline:3px solid var(--red);outline-offset:3px}
 .nav button{width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#241917;font:700 18px var(--body);cursor:pointer}
 .nav button:focus-visible{outline:3px solid #F08A8F}
 @media (prefers-reduced-motion:reduce){.slide,.track .fill{transition:none}}
+.remote{position:fixed;inset:0;z-index:30;background:rgba(20,13,12,.75);display:grid;place-items:center;padding:16px}
+.rbox{background:var(--paper);color:var(--ink);border-radius:16px;padding:32px;max-width:420px;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.rbox h3{font-size:26px} .rbox p{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+#qr{background:#fff;padding:14px;border-radius:10px} #qr img,#qr canvas{display:block;width:240px;height:240px}
+.rbox code{font-size:12px;word-break:break-all;background:var(--card);border:1px solid var(--line);padding:8px 10px;border-radius:6px;user-select:all}
+.rstat{font-weight:700;color:var(--red)!important}
 </style>
 
 <div class="viewport"><div class="stage" id="stage">
@@ -552,8 +559,20 @@ button.ui:focus-visible{outline:3px solid var(--red);outline-offset:3px}
 <footer class="tracker"><div class="track" id="mini"></div><span class="counter" id="count"></span></footer>
 </div></div>
 
-<div class="nav"><button type="button" id="prev" aria-label="Diapositiva anterior">‹</button><button type="button" id="next" aria-label="Diapositiva siguiente">›</button><button type="button" id="fs" aria-label="Pantalla completa">⛶</button></div>
+<div class="nav"><button type="button" id="prev" aria-label="Diapositiva anterior">‹</button><button type="button" id="next" aria-label="Diapositiva siguiente">›</button><button type="button" id="fs" aria-label="Pantalla completa">⛶</button><button type="button" id="rc" aria-label="Controlar desde el teléfono">📱</button></div>
 
+<div class="remote" id="remote" hidden>
+  <div class="rbox">
+    <h3>Controla desde tu teléfono</h3>
+    <div id="qr"></div>
+    <p>Escanea el código con la cámara del teléfono.<br>O abre este enlace:</p>
+    <code id="rlink"></code>
+    <p class="rstat" id="rstat">Esperando al teléfono…</p>
+    <button type="button" class="ui" id="rclose">Cerrar</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" crossorigin="anonymous"></script>
 <script>
 // Etapas de la ruta: nombre, minutos y color propio (como el pipeline de referencia)
 const SECS=[
@@ -597,6 +616,7 @@ function go(i){
   mini.parentNode.style.visibility=slides[cur].hasAttribute('data-notrack')?'hidden':'';
   document.getElementById('count').textContent=String(cur+1).padStart(2,'0')+' / '+slides.length;
   try{localStorage.setItem('ie-slide',cur)}catch(e){}
+  sendState();
 }
 function fit(){
   const r=Math.min(innerWidth/1600,innerHeight/900);
@@ -625,6 +645,41 @@ document.getElementById('cdgo').onclick=e=>{
   timer=setInterval(()=>{left=Math.max(0,left-1);show();if(!left){clearInterval(timer);timer=null;e.target.textContent='Iniciar'}},1000);
 };
 document.getElementById('cdreset').onclick=()=>{clearInterval(timer);timer=null;left=300;show();document.getElementById('cdgo').textContent='Iniciar'};
+
+// Control remoto: el teléfono publica órdenes en ntfy.sh/<clave>; aquí respondemos el estado en <clave>-s
+const NT='https://ntfy.sh/';
+let K=new URLSearchParams(location.search).get('k'),remote=false;
+try{K=K||localStorage.getItem('ie-k')}catch(e){}
+if(!K)K='iep'+Array.from(crypto.getRandomValues(new Uint8Array(9)),b=>(b%36).toString(36)).join('');
+try{localStorage.setItem('ie-k',K)}catch(e){}
+const titleOf=s=>(s.querySelector('h2,h1')||{}).textContent||(s.querySelector('img')||{}).alt||'';
+function sendState(full){
+  if(!remote&&!full)return;
+  const st={i:cur,n:slides.length,t:titleOf(slides[cur]).trim(),s:+slides[cur].dataset.sec};
+  if(full)st.secs=SECS.map((x,k)=>({n:x.n,c:x.c,f:slides.findIndex(s=>+s.dataset.sec==k)}));
+  fetch(NT+K+'-s',{method:'POST',body:JSON.stringify(st)}).catch(()=>{});
+}
+try{
+  const es=new EventSource(NT+K+'/sse');
+  es.onmessage=e=>{
+    let m='';try{m=JSON.parse(e.data).message||''}catch(x){}
+    if(!m)return;
+    remote=true;document.getElementById('rstat').textContent='Teléfono conectado ✓';
+    if(m=='next')go(cur+1);else if(m=='prev')go(cur-1);
+    else if(m.startsWith('go:'))go(+m.slice(3));
+    else if(m=='cd'){go(0);document.getElementById('cdgo').click()}
+    else if(m=='ping')sendState(true);
+  };
+}catch(e){}
+const ctrlURL=new URL('control.html?k='+K,location.href).href;
+document.getElementById('rlink').textContent=ctrlURL;
+let qrDone=false;
+document.getElementById('rc').onclick=()=>{
+  document.getElementById('remote').hidden=false;
+  if(!qrDone&&window.QRCode){new QRCode(document.getElementById('qr'),{text:ctrlURL,width:240,height:240});qrDone=true}
+};
+document.getElementById('rclose').onclick=()=>document.getElementById('remote').hidden=true;
+addEventListener('keydown',e=>{if(e.key=='Escape')document.getElementById('remote').hidden=true});
 
 let start=0;try{start=+localStorage.getItem('ie-slide')||0}catch(e){}
 const fromHash=()=>+location.hash.slice(1)-1;
