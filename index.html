@@ -1,0 +1,631 @@
+<title>Inteligencia Emocional para Parejas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Escenario 16:9 de 1600x900 escalado a la ventana; una franja inferior con la ruta (pipeline) de la masterclass */
+:root{
+  --paper:#F4EFEA; --card:#FBF8F5; --ink:#241917; --muted:#7A6A66; --line:#E2D8D0;
+  --red:#B8141F; --rose:#F3DFDF; --pink:#F08A8F;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:#1b1312;color:var(--ink);font-family:var(--body);overflow:hidden;
+  padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
+.viewport{position:fixed;inset:0;display:grid;place-items:center}
+.stage{width:1600px;height:900px;position:relative;transform:scale(var(--s,1));transform-origin:center;flex:none;
+  background:var(--paper);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+
+/* ---------- diapositivas ---------- */
+.slide{position:absolute;inset:0 0 120px 0;padding:64px 88px 40px;display:flex;flex-direction:column;gap:26px;
+  opacity:0;visibility:hidden;transition:opacity .35s ease,transform .35s ease;transform:translateY(8px)}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.slide.dark{background:var(--ink);color:#F6EEEA}
+.slide.red{background:var(--red);color:#fff}
+.slide.full{padding:0}
+.eyebrow{font:700 15px/1 var(--body);letter-spacing:.26em;text-transform:uppercase;color:var(--sec,var(--red));display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--sec,var(--red))}
+.dark .eyebrow,.red .eyebrow{color:#fff}
+.dark .eyebrow::before{background:var(--sec)} .red .eyebrow::before{background:#fff}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:54px;font-weight:700;line-height:1.08}
+.lead{font-size:23px;color:var(--muted);margin:-8px 0 0;max-width:62ch}
+.dark .lead,.red .lead{color:rgba(255,255,255,.78)}
+.note{font:700 22px/1.35 var(--body);color:var(--red);text-align:center;margin-top:auto}
+.red .note{color:#fff;text-align:left}
+.hl{color:var(--red)} .dark .hl{color:var(--pink)}
+.tag{display:inline-block;font:700 14px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;background:var(--rose);color:var(--red);padding:10px 18px;border-radius:6px}
+.tags{display:flex;gap:16px}
+
+.grid{display:grid;gap:18px;grid-template-columns:repeat(var(--n,3),1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:26px 26px 28px;display:flex;flex-direction:column;gap:12px}
+.card.hot{background:var(--rose);border-color:#E9C3C3}
+.card.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+.card .num{font:700 40px/1 var(--display);color:var(--red)}
+.card.ink .num{color:var(--pink)}
+.card b{font:700 19px/1.2 var(--display);letter-spacing:.04em;text-transform:uppercase}
+.card p{margin:0;font-size:18px;color:var(--muted);line-height:1.4}
+.card.ink p{color:rgba(255,255,255,.7)}
+.card .big{font:700 26px/1.3 var(--display)}
+.red .card{color:var(--ink)}
+.card.lg{padding:40px 34px}
+.card.lg .num{font-size:60px}
+
+.rows{display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:300px 1fr;align-items:center;background:var(--card);border-radius:8px;padding:18px 24px;font-size:20px}
+.row:nth-child(even){background:#EAE1D9}
+.row b{font:700 17px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+.row.hot{background:var(--rose)}
+
+.quote{background:var(--ink);color:#fff;border-radius:12px;padding:56px 70px;font:600 38px/1.3 var(--display);text-align:center}
+.pane{border-radius:12px;padding:38px 40px;display:flex;flex-direction:column;gap:16px}
+.pane small{font:700 15px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.pane .big{font:700 38px/1.2 var(--display)}
+.pane.ink{background:var(--ink);color:#fff} .pane.rose{background:var(--rose);color:var(--ink)} .pane.rose small{color:var(--red);opacity:1}
+.pane.paper{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+
+.flow{display:flex;align-items:stretch;gap:10px}
+.flow .card{flex:1}
+.flow .arr{align-self:center;font:700 30px var(--display);color:var(--red)}
+
+/* ---------- ruta / pipeline ---------- */
+.tracker{position:absolute;left:0;right:0;bottom:0;height:120px;background:var(--paper);border-top:1px solid var(--line);z-index:5}
+.track{position:absolute;inset:0}
+.track .base,.track .fill{position:absolute;top:50%;height:4px;margin-top:-2px;border-radius:2px}
+.track .base{left:3%;right:3%;background:#5a504d}
+.track .fill{left:3%;background:var(--red);transition:width .45s ease}
+.track .end{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--ink)}
+.node{position:absolute;top:50%;width:0;height:0;cursor:pointer;border:0;padding:0;background:none}
+.node .dot{position:absolute;left:-11px;top:-11px;width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--c);box-sizing:border-box;transition:transform .3s,background .3s}
+.node .stem{position:absolute;left:-1px;width:2px;height:var(--h,30px);background:#8d8582}
+.node .pin{position:absolute;left:-7px;width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 4px var(--c),inset 0 0 0 6px #fff}
+.node.up .stem{bottom:11px} .node.up .pin{top:calc(-11px - var(--h,30px) - 7px)}
+.node.dn .stem{top:11px} .node.dn .pin{top:calc(11px + var(--h,30px) - 7px)}
+.node .lbl{position:absolute;left:14px;white-space:nowrap;font:600 13px/1.15 var(--body);color:var(--muted);text-align:left}
+.node .lbl i{display:block;font-style:normal;font-weight:500;font-size:11px;letter-spacing:.08em;opacity:.8}
+.node.up .lbl{bottom:calc(11px + var(--h,30px) - 12px)} .node.dn .lbl{top:calc(11px + var(--h,30px) - 12px)}
+.node.done .dot{background:var(--c)}
+.node.now .dot{background:var(--c);transform:scale(1.35);box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 25%,transparent)}
+.node.now .lbl{color:var(--ink);font-weight:800}
+.node:focus-visible .dot{outline:3px solid var(--ink);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){.node.now .dot{animation:pulse 2s infinite}}
+@keyframes pulse{50%{box-shadow:0 0 0 12px color-mix(in srgb,var(--c) 0%,transparent)}}
+.counter{position:absolute;right:22px;bottom:8px;font:600 12px var(--body);color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.1em}
+.brand{position:absolute;left:22px;bottom:8px;font:700 11px var(--body);color:var(--muted);letter-spacing:.18em}
+
+/* agenda grande */
+.agenda{position:relative;height:440px;margin-top:10px}
+.agenda .node .dot{width:30px;height:30px;left:-15px;top:-15px;border-width:5px}
+.agenda .node .pin{width:20px;height:20px;left:-10px}
+.agenda .node.up .pin{top:calc(-15px - var(--h) - 10px)} .agenda .node.dn .pin{top:calc(15px + var(--h) - 10px)}
+.agenda .node.up .stem{bottom:15px} .agenda .node.dn .stem{top:15px}
+.agenda .node .lbl{font-size:19px;left:-70px;width:140px;white-space:normal;text-align:center;color:var(--ink)}
+.agenda .node .lbl i{font-size:14px;color:var(--c);opacity:1;font-weight:700;margin-top:4px}
+.agenda .node.up .lbl{bottom:calc(15px + var(--h) + 18px)} .agenda .node.dn .lbl{top:calc(15px + var(--h) + 18px)}
+.agenda .track .base{height:6px;margin-top:-3px}
+.agenda .track .end{width:16px;height:16px;margin:-8px 0 0 -8px}
+
+/* portada y cuenta regresiva */
+.cover{display:grid;grid-template-columns:900px 1fr;padding:0;gap:0}
+.cover img{width:100%;height:100%;object-fit:cover;max-width:100%}
+.cover .txt{padding:90px 70px;display:flex;flex-direction:column;gap:22px;justify-content:center}
+.cover h1{font-size:62px;line-height:1.08;font-weight:700}
+.cover .who{border-top:2px solid var(--red);padding-top:22px;font:700 20px var(--display);letter-spacing:.06em}
+.cover .who span{display:block;font:500 17px var(--body);color:var(--muted);letter-spacing:0;margin-top:8px}
+.clock{font:800 220px/1 var(--display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;text-align:center;margin-top:10px}
+.cdbtns{display:flex;gap:12px;justify-content:center}
+button.ui{font:700 15px var(--body);letter-spacing:.12em;text-transform:uppercase;border:2px solid var(--ink);background:transparent;color:var(--ink);padding:12px 24px;border-radius:8px;cursor:pointer}
+button.ui.fill{background:var(--red);border-color:var(--red);color:#fff}
+button.ui:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+
+.price{font:700 40px var(--display);border-bottom:1px solid var(--line);padding-bottom:16px}
+.card ul{margin:0;padding-left:20px;font-size:18px;line-height:1.6;color:var(--muted)}
+.bono{font:800 52px/1 var(--display);background:var(--red);color:#fff;padding:18px 28px;border-radius:10px;display:inline-block}
+.red .bono{background:#fff;color:var(--red)}
+.dark .bono{background:#fff;color:var(--red)}
+.bhead{display:flex;align-items:center;gap:28px}
+.bhead h2{font-size:40px}
+.mega{font:800 150px/1 var(--display)}
+
+/* controles */
+.nav{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:calc(14px + env(safe-area-inset-top,0px));display:flex;gap:8px;z-index:20;opacity:.35;transition:opacity .2s}
+.nav:hover,.nav:focus-within{opacity:1}
+.nav button{width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#241917;font:700 18px var(--body);cursor:pointer}
+.nav button:focus-visible{outline:3px solid #F08A8F}
+@media (prefers-reduced-motion:reduce){.slide,.track .fill{transition:none}}
+</style>
+
+<div class="viewport"><div class="stage" id="stage">
+
+<!-- ===== 0 · BIENVENIDA ===== -->
+<section class="slide" data-sec="0">
+  <div class="eyebrow">Creciendo en pareja · Masterclass gratuita</div>
+  <h2>INTELIGENCIA <span class="hl">EMOCIONAL</span><br><span style="font-size:24px;letter-spacing:.2em;font-weight:600">PARA PAREJAS</span></h2>
+  <div class="clock" id="clock">05:00</div>
+  <p style="text-align:center;margin:0;font:600 16px var(--body);letter-spacing:.2em;color:var(--muted)">COMENZAMOS EN</p>
+  <div class="cdbtns"><button class="ui fill" id="cdgo" type="button">Iniciar</button><button class="ui" id="cdreset" type="button">Reiniciar</button></div>
+</section>
+
+<section class="slide cover" data-sec="0">
+  <img src="img/portada.jpeg" alt="Enrique y Angie, Inteligencia Emocional para Parejas">
+  <div class="txt">
+    <div class="eyebrow">Masterclass · Vía Zoom</div>
+    <h1>No es dejar de discutir.<br><span class="hl">Es aprender a no destruirnos al hacerlo.</span></h1>
+    <div class="who">ENRIQUE + ANGIE<span>27 octubre 2026 · 8:00 p. m.</span></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="0" data-notrack>
+  <div class="eyebrow">La ruta de esta noche · 55 minutos</div>
+  <h2>Así vamos a recorrer la masterclass</h2>
+  <p class="lead">Cada punto es una etapa. Abajo verás siempre en cuál estamos.</p>
+  <div class="agenda" id="agenda"></div>
+</section>
+
+<!-- ===== 1 · APERTURA ===== -->
+<section class="slide" data-sec="1">
+  <div class="eyebrow">Apertura · 0–4 min</div>
+  <h2>Una buena relación no es una relación sin conflictos.</h2>
+  <p class="lead">Es una relación que aprende a atravesarlos sin perder la conexión.</p>
+  <div class="card lg"><span class="big" style="font-size:38px">¿Cuántas veces una conversación sencilla terminó convirtiéndose en una pelea?</span></div>
+  <div class="tags"><span class="tag">Enrique: pregunta</span><span class="tag">Angie: historia real</span></div>
+</section>
+
+<section class="slide" data-sec="1">
+  <div class="eyebrow">Participación · Chat</div>
+  <h2>Hoy quiero mejorar…</h2>
+  <p style="font:600 40px/1.3 var(--display);margin:30px 0 0">Si pudieras cambiar UNA sola cosa de la manera en que ustedes discuten,</p>
+  <p style="font:700 80px/1 var(--display);color:var(--red);margin:0">¿cuál sería?</p>
+  <div class="tags"><span class="tag">Escríbelo en el chat</span></div>
+</section>
+
+<!-- ===== 2 · INTELIGENCIA EMOCIONAL ===== -->
+<section class="slide" data-sec="2">
+  <div class="eyebrow">01 · Inteligencia emocional · 4–14 min</div>
+  <h2>Inteligencia emocional en pareja</h2>
+  <p class="lead">La capacidad de reconocer, comprender, regular y expresar lo que sentimos.</p>
+  <div class="grid" style="--n:4">
+    <div class="card"><span class="num">01</span><b>Reconocer</b><p>¿Qué estoy sintiendo realmente?</p></div>
+    <div class="card"><span class="num">02</span><b>Comprender</b><p>¿Qué ocurrió y qué significa para mí?</p></div>
+    <div class="card"><span class="num">03</span><b>Regular</b><p>¿Cómo responder sin lastimar?</p></div>
+    <div class="card"><span class="num">04</span><b>Conectar</b><p>¿Cómo lo expreso y escucho al otro?</p></div>
+  </div>
+  <p class="note">Sentir es humano. Gestionar lo que hacemos con lo que sentimos se aprende.</p>
+</section>
+
+<section class="slide" data-sec="2">
+  <div class="eyebrow">01 · Aclaramos conceptos</div>
+  <h2>Inteligencia emocional NO significa…</h2>
+  <div class="two">
+    <div class="rows"><span class="eyebrow" style="--sec:var(--muted)">No es</span>
+      <div class="row" style="grid-template-columns:1fr">Nunca enojarse</div>
+      <div class="row" style="grid-template-columns:1fr">Callar para evitar conflictos</div>
+      <div class="row" style="grid-template-columns:1fr">Darle siempre la razón</div>
+      <div class="row" style="grid-template-columns:1fr">Controlar al otro</div>
+    </div>
+    <div class="rows"><span class="eyebrow">Sí es</span>
+      <div class="row hot" style="grid-template-columns:1fr"><strong>Gestionar el enojo</strong></div>
+      <div class="row hot" style="grid-template-columns:1fr"><strong>Expresar necesidades y límites</strong></div>
+      <div class="row hot" style="grid-template-columns:1fr"><strong>Escuchar aunque no coincidamos</strong></div>
+      <div class="row hot" style="grid-template-columns:1fr"><strong>Responsabilizarme de mi respuesta</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="2">
+  <div class="eyebrow">01 · Ejemplo cotidiano</div>
+  <h2>Una situación. Tres maneras de vivirla.</h2>
+  <p class="lead">Quieres hablar de algo importante y tu pareja sigue mirando el celular.</p>
+  <div class="grid" style="--n:3">
+    <div class="card"><b style="color:var(--muted)">Sentir</b><span class="big">«Necesito atención».</span><p>Aparecen tristeza o frustración.</p></div>
+    <div class="card"><b style="color:var(--muted)">Reaccionar</b><span class="big">«¡Ese celular te importa más que yo!»</span><p>La emoción se convierte en ataque.</p></div>
+    <div class="card hot"><b style="color:var(--red)">Responder</b><span class="big">«Quiero hablar contigo. ¿Podemos dejar el celular?»</span><p>Expreso una necesidad y hago una petición.</p></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="2">
+  <div class="eyebrow">01 · Vida cotidiana</div>
+  <h2>¿Dónde se nota en la convivencia?</h2>
+  <div class="rows">
+    <div class="row"><b>Comunicación</b>Interpretamos palabras como ataques.</div>
+    <div class="row"><b>Conflictos</b>Las diferencias pequeñas escalan.</div>
+    <div class="row"><b>Confianza</b>Ataques y castigos crean distancia.</div>
+    <div class="row"><b>Intimidad</b>Lo no resuelto puede acumularse.</div>
+    <div class="row"><b>Decisiones</b>Estrés y cansancio influyen en el trato.</div>
+  </div>
+</section>
+
+<section class="slide" data-sec="2">
+  <div class="eyebrow">01 · Responsabilidad emocional</div>
+  <h2>Mi pareja influye. Yo respondo.</h2>
+  <div class="quote" style="margin-top:30px">«No eres responsable de todo lo que sientes, pero sí de lo que haces con aquello que sientes».</div>
+  <p class="note">Responsabilidad emocional ≠ justificar conductas dañinas del otro.</p>
+</section>
+
+<!-- ===== 3 · DETONANTES ===== -->
+<section class="slide dark" data-sec="3">
+  <div class="eyebrow">02 · Detonantes · 14–24 min</div>
+  <h2>No siempre reaccionamos a lo que pasó.</h2>
+  <p class="lead">A menudo reaccionamos a lo que creemos que significa lo que pasó.</p>
+  <div style="display:flex;flex-direction:column;gap:30px;margin-top:30px">
+    <div><div class="eyebrow" style="color:rgba(255,255,255,.7)">Hecho</div><p style="font:700 40px var(--display);margin:12px 0 0">«Tomó una decisión sin consultarme».</p></div>
+    <div><div class="eyebrow" style="color:rgba(255,255,255,.7)">Interpretación</div><p style="font:700 48px var(--display);margin:12px 0 0;color:var(--pink)">«Mi opinión no importa».</p></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="3">
+  <div class="eyebrow">02 · Qué hay detrás</div>
+  <h2>Cinco factores que intensifican la emoción</h2>
+  <div class="grid" style="--n:5">
+    <div class="card"><span class="num">01</span><b>Experiencias</b><p>Rechazo o decepciones del pasado</p></div>
+    <div class="card"><span class="num">02</span><b>Creencias</b><p>«No soy importante»</p></div>
+    <div class="card"><span class="num">03</span><b>Necesidades</b><p>Atención, seguridad, valoración</p></div>
+    <div class="card"><span class="num">04</span><b>Expectativas</b><p>Esperar que el otro adivine</p></div>
+    <div class="card"><span class="num">05</span><b>Estado personal</b><p>Estrés, cansancio o frustración</p></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="3">
+  <div class="eyebrow">02 · El ciclo</div>
+  <h2>De un hecho a una reacción</h2>
+  <div class="flow">
+    <div class="card"><span class="num">01</span><b>Situación</b><p>Decide sin consultarme</p></div><span class="arr">›</span>
+    <div class="card hot"><span class="num">02</span><b>Interpretación</b><p>«No importo»</p></div><span class="arr">›</span>
+    <div class="card"><span class="num">03</span><b>Emoción</b><p>Tristeza / enojo</p></div><span class="arr">›</span>
+    <div class="card"><span class="num">04</span><b>Reacción</b><p>Reclamo / distancia</p></div><span class="arr">›</span>
+    <div class="card ink"><span class="num">05</span><b>Resultado</b><p>Más desconexión</p></div>
+  </div>
+  <p class="note">Podemos intervenir en la interpretación y en nuestra respuesta.</p>
+</section>
+
+<section class="slide red" data-sec="3">
+  <div class="eyebrow">Ejercicio 01 · En vivo</div>
+  <h2>Descubre tu detonante emocional</h2>
+  <p class="lead">Piensa en una discusión reciente. Identifica qué pasó dentro de ti.</p>
+  <div class="grid" style="--n:2">
+    <div class="card"><span class="num">01</span><b>Hecho</b><p>¿Qué sucedió realmente?</p></div>
+    <div class="card"><span class="num">02</span><b>Interpretación</b><p>¿Qué significado le diste?</p></div>
+    <div class="card"><span class="num">03</span><b>Emoción</b><p>¿Qué sentiste en verdad?</p></div>
+    <div class="card"><span class="num">04</span><b>Necesidad</b><p>¿Qué necesitabas?</p></div>
+  </div>
+  <p class="note">REVISIÓN EN VIVO · Comparte en el chat una emoción o necesidad.</p>
+</section>
+
+<!-- ===== 4 · DISCUTIR MEJOR ===== -->
+<section class="slide" data-sec="4">
+  <div class="eyebrow">03 · Discutir mejor · 24–39 min</div>
+  <h2>Tres claves para sobrevivir una discusión</h2>
+  <div class="grid" style="--n:3;margin-top:30px">
+    <div class="card lg"><span class="num">01</span><b>Regúlate</b><p>Antes de reaccionar</p></div>
+    <div class="card lg ink"><span class="num">02</span><b>Comunica</b><p>Sin atacar</p></div>
+    <div class="card lg"><span class="num">03</span><b>Escucha</b><p>Para comprender</p></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="4">
+  <div class="eyebrow">Clave 01 · Lidera Enrique</div>
+  <h2>Regúlate antes de reaccionar</h2>
+  <p class="lead">La pausa consciente no es abandono: es una decisión para cuidar la conversación.</p>
+  <div class="grid" style="--n:4">
+    <div class="card"><span class="num">01</span><b>Detecta</b><p>Tensión, impulso de atacar</p></div>
+    <div class="card"><span class="num">02</span><b>Nombra</b><p>«Estoy muy alterado»</p></div>
+    <div class="card"><span class="num">03</span><b>Pausa</b><p>Respira y baja intensidad</p></div>
+    <div class="card"><span class="num">04</span><b>Regresa</b><p>Acuerden cuándo hablar</p></div>
+  </div>
+  <div class="card hot" style="text-align:center"><span class="big">«Necesito calmarme. No quiero lastimarte. Retomemos esto en un rato».</span></div>
+</section>
+
+<section class="slide" data-sec="4">
+  <div class="eyebrow">Clave 02 · Lidera Angie</div>
+  <h2>Comunica sin atacar</h2>
+  <p class="lead">Una fórmula sencilla para decir lo que sentimos sin acusar.</p>
+  <div class="rows">
+    <div class="row" style="grid-template-columns:60px 240px 1fr"><b>01</b><b>Hecho</b>Cuando tomamos planes sin hablarlo…</div>
+    <div class="row" style="grid-template-columns:60px 240px 1fr"><b>02</b><b>Emoción</b>…me siento frustrada…</div>
+    <div class="row" style="grid-template-columns:60px 240px 1fr"><b>03</b><b>Necesidad</b>…porque deseo participar…</div>
+    <div class="row hot" style="grid-template-columns:60px 240px 1fr"><b>04</b><b>Petición</b><strong>…¿podemos decidirlo juntos?</strong></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="4">
+  <div class="eyebrow">Clave 03 · Ambos</div>
+  <h2>Escucha para comprender</h2>
+  <p class="lead">Validar una emoción no significa renunciar a tu perspectiva.</p>
+  <div class="grid" style="--n:3">
+    <div class="card"><span class="num">01</span><b>Escuchar</b><p>No interrumpir.<br>No preparar la defensa.</p></div>
+    <div class="card hot"><span class="num">02</span><b>Validar</b><p>«Entiendo que eso te haya dolido».</p></div>
+    <div class="card"><span class="num">03</span><b>Preguntar</b><p>«¿Qué necesitabas de mí en ese momento?»</p></div>
+  </div>
+  <p class="note">La comprensión reduce la defensa y abre espacio para dialogar.</p>
+</section>
+
+<section class="slide" data-sec="4">
+  <div class="eyebrow">Ejercicio 02 · En vivo</div>
+  <h2>Convierte un ataque en una petición</h2>
+  <p class="lead">Vamos a practicar una forma más clara y respetuosa de hablar.</p>
+  <div class="pane paper"><small>Antes · reacción habitual</small><span class="big">«¡Tú nunca piensas en mí!»</span></div>
+  <div class="pane rose"><small>Ahora · completa la fórmula</small><span class="big" style="font-size:32px">Cuando ________, me siento ________.<br>Para mí es importante ________. ¿Podemos ________?</span></div>
+  <p class="note" style="text-align:left">REVISIÓN EN VIVO · Lee 2 respuestas del chat y ayúdalos a mejorarlas.</p>
+</section>
+
+<!-- ===== 5 · DEL CONFLICTO A LA CONEXIÓN ===== -->
+<section class="slide" data-sec="5">
+  <div class="eyebrow">04 · Del conflicto a la conexión · 39–48 min</div>
+  <h2>No somos enemigos. Tenemos un desacuerdo.</h2>
+  <div class="two" style="margin-top:20px">
+    <div class="pane ink"><small>Pelear para ganar</small><span class="big">«¿Quién tiene la razón?»</span></div>
+    <div class="pane rose"><small>Conversar para resolver</small><span class="big">«¿Qué necesitamos acordar?»</span></div>
+  </div>
+  <p class="note">Resolver un conflicto no exige que ambos piensen igual.</p>
+</section>
+
+<section class="slide" data-sec="5">
+  <div class="eyebrow">04 · Reparar después de discutir</div>
+  <h2>Las 4 R de la reparación</h2>
+  <div class="grid" style="--n:4;margin-top:20px">
+    <div class="card"><span class="num">01</span><b>Reconocer</b><p>¿Qué ocurrió?</p></div>
+    <div class="card"><span class="num">02</span><b>Responsabilizarme</b><p>¿Qué hice yo?</p></div>
+    <div class="card"><span class="num">03</span><b>Reparar</b><p>¿Cómo puedo cuidar el daño?</p></div>
+    <div class="card"><span class="num">04</span><b>Renegociar</b><p>¿Qué acuerdo necesitamos?</p></div>
+  </div>
+  <p class="note">Una discusión puede terminar sin que el conflicto se haya resuelto.</p>
+</section>
+
+<section class="slide" data-sec="5">
+  <div class="eyebrow">04 · Acuerdos que funcionan</div>
+  <h2>Menos promesas vagas. Más compromisos claros.</h2>
+  <div class="two" style="margin-top:20px">
+    <div class="pane paper"><small>Acuerdo vago</small><span class="big">«Vamos a comunicarnos mejor».</span></div>
+    <div class="pane rose"><small>Acuerdo concreto</small><span class="big">«Sin insultos. Si pausamos, acordamos cuándo volver».</span></div>
+  </div>
+  <p class="note">Los acuerdos se dialogan, se revisan y se cumplen entre los dos.</p>
+</section>
+
+<section class="slide red" data-sec="5">
+  <div class="eyebrow">Ejercicio 03 · En vivo</div>
+  <h2>Crea un acuerdo que sí puedan cumplir</h2>
+  <p class="lead">Elige un desacuerdo recurrente y conviértelo en un compromiso observable.</p>
+  <div class="two">
+    <div class="pane paper"><small style="color:var(--red);opacity:1">En lugar de…</small><span class="big">«Vamos a comunicarnos mejor».</span></div>
+    <div class="pane paper"><small style="color:var(--red);opacity:1">Acuerden algo concreto</small><span class="big">«Cuando pase ____, vamos a ____».</span></div>
+  </div>
+  <p style="margin:0;font:700 21px var(--body)">EJEMPLO: Si alguno necesita una pausa, acordamos cuándo retomar.</p>
+  <p class="note" style="margin-top:0">REVISIÓN EN VIVO · Lean 2 acuerdos del chat. ¿Son claros y posibles?</p>
+</section>
+
+<!-- ===== 6 · RELACIÓN SALUDABLE ===== -->
+<section class="slide" data-sec="6">
+  <div class="eyebrow">05 · Relación emocionalmente saludable · 48–53 min</div>
+  <h2>La conexión se construye todos los días</h2>
+  <div class="rows">
+    <div class="row"><b>Conversaciones honestas</b>Hablar de sentimientos, no solo tareas.</div>
+    <div class="row"><b>Empatía</b>Querer entender una experiencia diferente.</div>
+    <div class="row"><b>Pequeños momentos</b>Presencia, aprecio y atención.</div>
+    <div class="row"><b>Seguridad emocional</b>Poder hablar sin burlas ni humillaciones.</div>
+    <div class="row"><b>Elección consciente</b>Cuidar el vínculo con acciones.</div>
+  </div>
+</section>
+
+<section class="slide" data-sec="6">
+  <div class="eyebrow">05 · Desde esta semana</div>
+  <h2>Tres prácticas. Un comienzo real.</h2>
+  <div class="grid" style="--n:3;margin-top:30px">
+    <div class="card lg"><span class="num" style="font-size:44px">10 minutos</span><p>Cada día, conversar sin distracciones.</p></div>
+    <div class="card lg"><span class="num" style="font-size:44px">1 pregunta</span><p>«¿Qué necesitas más de mí?»</p></div>
+    <div class="card lg"><span class="num" style="font-size:44px">1 acuerdo</span><p>Elegir juntos una mejora concreta.</p></div>
+  </div>
+</section>
+
+<!-- ===== 7 · COMPROMISO ===== -->
+<section class="slide" data-sec="7">
+  <div class="eyebrow">Compromiso · 53–55 min</div>
+  <h2>¿Qué necesita cambiar en mí?</h2>
+  <p style="font:600 58px/1.25 var(--display);margin:40px 0 0">Por amor a nuestra relación,<br>me comprometo a…</p>
+  <div class="tag" style="text-align:center;font-size:18px;padding:20px;margin-top:auto">Escribe tu compromiso en el chat</div>
+</section>
+
+<!-- ===== 8 · LA EXPERIENCIA ===== -->
+<section class="slide dark" data-sec="8">
+  <div class="eyebrow">29 de noviembre · Creciendo en pareja</div>
+  <h2>La relación que deseas no se construye sola.</h2>
+  <p class="lead">Hoy aprendimos herramientas. El próximo paso es practicarlas juntos.</p>
+  <p style="font:800 110px/1 var(--display);margin:40px 0 0">CRECIENDO<br><span style="color:var(--pink)">EN PAREJA</span></p>
+  <div><span class="tag">Experiencia presencial</span></div>
+</section>
+
+<section class="slide" data-sec="8">
+  <div class="eyebrow">Una experiencia para seguir creciendo</div>
+  <h2>Cinco pilares. Una relación más consciente.</h2>
+  <div class="rows">
+    <div class="row" style="grid-template-columns:60px 280px 1fr"><b>01</b><strong>MÍRATE</strong>Lo que aporto y necesito transformar</div>
+    <div class="row" style="grid-template-columns:60px 280px 1fr"><b>02</b><strong>COMUNÍQUENSE</strong>Hablar y escucharse mejor</div>
+    <div class="row" style="grid-template-columns:60px 280px 1fr"><b>03</b><strong>ELÍJANSE</strong>Volver a elegirse con intención</div>
+    <div class="row" style="grid-template-columns:60px 280px 1fr"><b>04</b><strong>ACUERDEN</strong>Dialogar y negociar diferencias</div>
+    <div class="row" style="grid-template-columns:60px 280px 1fr"><b>05</b><strong>CONSTRUYAN</strong>Crear proyectos y hábitos comunes</div>
+  </div>
+</section>
+
+<section class="slide" data-sec="8">
+  <div class="eyebrow">Vive la experiencia</div>
+  <h2>Regálense un espacio para ustedes.</h2>
+  <div class="pane ink" style="flex-direction:row;align-items:center;gap:90px;padding:50px 60px;margin-top:20px">
+    <div><small>Domingo</small><div style="font:800 140px/1 var(--display)">29</div></div>
+    <div><div style="font:700 60px var(--display);color:var(--pink)">NOVIEMBRE</div><div style="font:700 24px var(--body);margin-top:10px">2026 · SANTO DOMINGO</div></div>
+  </div>
+  <p class="note">Una inversión en lo que están construyendo juntos.</p>
+</section>
+
+<section class="slide" data-sec="8">
+  <div class="eyebrow">Elige cómo vivir la experiencia</div>
+  <h2>Planes para dos personas</h2>
+  <div class="grid" style="--n:3">
+    <div class="card lg"><b class="hl">Gold</b><div class="price">RD$5,900</div><ul><li>Entrada para 2 personas</li></ul></div>
+    <div class="card lg hot"><b class="hl">Platinum</b><div class="price">RD$6,600</div><ul><li>Entrada para 2 personas</li><li>1 libro</li></ul></div>
+    <div class="card lg"><b class="hl">Diamond</b><div class="price">RD$9,500</div><ul><li>Entrada para 2 personas</li><li>Ubicación preferencial</li><li>2 libros y materiales</li><li>Juego de cartas</li><li>Sesión VIP previa</li></ul></div>
+  </div>
+</section>
+
+<!-- ===== 9 · BONOS ===== -->
+<section class="slide red" data-sec="9">
+  <div class="eyebrow">Una sorpresa para todos ustedes</div>
+  <h2 style="font-size:64px">¡Hoy su relación gana mucho más!</h2>
+  <p class="lead">No solo se llevan una experiencia. También hemos preparado…</p>
+  <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:24px;align-items:stretch">
+    <div class="card lg" style="flex-direction:row;align-items:center;gap:24px"><span class="mega" style="color:var(--red)">05</span><div><b style="font-size:34px">Bonos</b><p style="color:var(--red);font-weight:700">ESPECIALES · POR TIEMPO LIMITADO</p></div></div>
+    <div class="grid" style="--n:2;gap:12px">
+      <div class="card" style="padding:16px 22px"><b>1 · Descuento</b></div>
+      <div class="card" style="padding:16px 22px"><b>2 · CreSER</b></div>
+      <div class="card" style="padding:16px 22px"><b>3 · Encuentro VIP</b></div>
+      <div class="card" style="padding:16px 22px"><b>4 · Mastermind</b></div>
+      <div class="card" style="padding:16px 22px"><b>5 · E-book</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="9">
+  <div class="eyebrow">Regalo especial</div>
+  <div class="bhead"><span class="bono">BONO 1</span><h2>10% de descuento</h2></div>
+  <p class="lead" style="color:var(--red)">En cualquier boleta durante las próximas 48 horas.</p>
+  <div class="two">
+    <div class="pane" style="background:var(--red);color:#fff"><span class="mega">48</span><span class="big" style="font-size:48px">HORAS</span><small>Para aprovecharlo</small></div>
+    <div class="pane paper"><small style="color:var(--red);opacity:1">Bono de descuento</small><span class="mega" style="color:var(--red)">10%</span><small>Gold · Platinum · Diamond — válido por 48 horas</small></div>
+  </div>
+  <p class="lead" style="margin:0">Activa tu descuento al comprar dentro de las próximas 48 horas.</p>
+</section>
+
+<section class="slide dark" data-sec="9">
+  <div class="eyebrow">Regalo especial</div>
+  <div class="bhead"><span class="bono">BONO 2</span><h2>CreSER Academy para ambos</h2></div>
+  <p class="lead">Membresía para ti y tu pareja durante noviembre y diciembre.</p>
+  <div class="grid" style="--n:3;margin-top:20px">
+    <div class="card lg"><b class="hl">CreSER Academy</b><p>Membresía de pareja<br>Tu membresía</p><b>Nov · Dic 2026</b></div>
+    <div class="card lg"><b class="hl">CreSER Academy</b><p>Membresía de pareja<br>Membresía de tu pareja</p><b>Nov · Dic 2026</b></div>
+    <div class="pane" style="background:var(--red);justify-content:center;text-align:center"><span class="big" style="font-size:30px">NOVIEMBRE<br>DICIEMBRE</span><small>Dos personas · dos meses</small></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="9">
+  <div class="eyebrow">Regalo especial</div>
+  <div class="bhead"><span class="bono">BONO 3</span><h2>Compartir presencial exclusivo</h2></div>
+  <p class="lead" style="color:var(--red)">Primeras 5 compras Platinum o Diamond · Viernes antes del evento.</p>
+  <div style="display:grid;grid-template-columns:420px 1fr;gap:24px">
+    <div class="pane ink" style="text-align:center;align-items:center"><span class="mega">05</span><span class="big" style="font-size:26px">PRIMERAS COMPRAS</span><span class="tag">Platinum o Diamond</span></div>
+    <div class="pane paper"><small style="color:var(--red);opacity:1">Invitación especial</small><span class="big">ENRIQUE + ANGIE</span><small>Encuentro presencial</small><span class="tag" style="text-align:center">Viernes 27 noviembre</span></div>
+  </div>
+  <p class="lead" style="margin:0">Un encuentro presencial especial con Angie y Enrique.</p>
+</section>
+
+<section class="slide red" data-sec="9">
+  <div class="eyebrow">Regalo especial</div>
+  <div class="bhead"><span class="bono">BONO 4</span><h2>Mastermind: Creciendo en pareja</h2></div>
+  <p class="lead">Primeras 10 compras de cualquier plan · Estudio digital del libro.</p>
+  <div class="grid" style="--n:3;margin-top:20px">
+    <div class="pane ink" style="text-align:center;justify-content:center"><span class="big">CRECIENDO<br>EN PAREJA</span><small>Un libro para construir juntos</small></div>
+    <div class="pane paper" style="text-align:center;justify-content:center"><span class="big hl">MASTERMIND</span><small>En pareja · encuentro digital</small></div>
+    <div class="pane paper" style="text-align:center;align-items:center;justify-content:center"><span class="mega hl" style="font-size:110px">10</span><small>Primeras compras · cualquier plan</small></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="9">
+  <div class="eyebrow">Regalo especial</div>
+  <div class="bhead"><span class="bono">BONO 5</span><h2>E-book: Inteligencia Emocional</h2></div>
+  <p class="lead" style="color:var(--red)">Para parejas · Herramientas para aplicar lo aprendido y más.</p>
+  <div style="display:grid;grid-template-columns:1fr 360px;gap:30px;align-items:center">
+    <div class="rows">
+      <div class="row" style="grid-template-columns:60px 240px 1fr"><b>01</b><b>Ideas claras</b>Para comprender lo que sienten</div>
+      <div class="row" style="grid-template-columns:60px 240px 1fr"><b>02</b><b>Ejercicios</b>Para practicar en la relación</div>
+      <div class="row" style="grid-template-columns:60px 240px 1fr"><b>03</b><b>Herramientas</b>Para seguir creciendo juntos</div>
+    </div>
+    <div class="pane ink" style="text-align:center;border:14px solid #3a2a28;border-radius:28px"><small style="color:var(--pink);opacity:1">E-book</small><span class="big" style="font-size:30px">INTELIGENCIA EMOCIONAL</span><small style="color:var(--pink);opacity:1">Para parejas</small></div>
+  </div>
+</section>
+
+<section class="slide full" data-sec="9">
+  <img src="img/bonos.jpg" alt="Los 5 bonos especiales por tu compra" style="width:100%;height:100%;object-fit:contain">
+</section>
+
+<footer class="tracker"><div class="track" id="mini"></div><span class="counter" id="count"></span></footer>
+</div></div>
+
+<div class="nav"><button type="button" id="prev" aria-label="Diapositiva anterior">‹</button><button type="button" id="next" aria-label="Diapositiva siguiente">›</button><button type="button" id="fs" aria-label="Pantalla completa">⛶</button></div>
+
+<script>
+// Etapas de la ruta: nombre, minutos y color propio (como el pipeline de referencia)
+const SECS=[
+  {n:'Bienvenida',t:'8:00 p. m.',c:'#8C6D5A'},
+  {n:'Apertura',t:'0–4 min',c:'#E07A5F'},
+  {n:'Inteligencia emocional',t:'4–14 min',c:'#B8141F'},
+  {n:'Detonantes',t:'14–24 min',c:'#D4A017'},
+  {n:'Discutir mejor',t:'24–39 min',c:'#3D7EA6'},
+  {n:'Del conflicto a la conexión',t:'39–48 min',c:'#6A994E'},
+  {n:'Relación saludable',t:'48–53 min',c:'#7B5EA7'},
+  {n:'Compromiso',t:'53–55 min',c:'#1F6F6B'},
+  {n:'La experiencia',t:'29 de noviembre',c:'#241917'},
+  {n:'Bonos',t:'5 regalos',c:'#C2475A'},
+];
+const slides=[...document.querySelectorAll('.slide')];
+const X=i=>3+94*(i+1)/(SECS.length+1); // % sobre la línea
+slides.forEach(s=>s.style.setProperty('--sec',SECS[s.dataset.sec].c));
+
+function build(el,big){
+  el.innerHTML='<span class="base"></span><span class="fill"></span><span class="end" style="left:3%"></span><span class="end" style="left:97%"></span>'+
+    SECS.map((s,i)=>`<button type="button" class="node ${i%2?'dn':'up'}" data-i="${i}" style="left:${X(i)}%;--c:${s.c};--h:${big?(i%4>1?120:70):24}px" aria-label="Ir a ${s.n}">
+      <span class="stem"></span><span class="pin"></span><span class="dot"></span><span class="lbl">${s.n}<i>${s.t}</i></span></button>`).join('');
+  el.querySelectorAll('.node').forEach(b=>b.onclick=()=>go(slides.findIndex(s=>+s.dataset.sec==+b.dataset.i)));
+}
+const mini=document.getElementById('mini'),agenda=document.getElementById('agenda');
+build(mini,false);
+agenda.innerHTML='<div class="track"></div>';build(agenda.firstChild,true);
+
+let cur=0;
+function paint(trackEl,sec,frac){
+  trackEl.querySelectorAll('.node').forEach((n,i)=>{n.classList.toggle('done',i<sec);n.classList.toggle('now',i==sec)});
+  const a=X(sec),b=sec<SECS.length-1?X(sec+1):97;
+  trackEl.querySelector('.fill').style.width=(a+(b-a)*frac-3)+'%';
+}
+function go(i){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>s.classList.toggle('on',k==cur));
+  const sec=+slides[cur].dataset.sec, inSec=slides.filter(s=>+s.dataset.sec==sec);
+  paint(mini,sec,inSec.indexOf(slides[cur])/inSec.length);
+  paint(agenda.firstChild,sec,0);
+  mini.parentNode.style.visibility=slides[cur].hasAttribute('data-notrack')?'hidden':'';
+  document.getElementById('count').textContent=String(cur+1).padStart(2,'0')+' / '+slides.length;
+  try{localStorage.setItem('ie-slide',cur)}catch(e){}
+}
+function fit(){
+  const r=Math.min(innerWidth/1600,innerHeight/900);
+  document.getElementById('stage').style.setProperty('--s',r);
+}
+addEventListener('resize',fit);fit();
+addEventListener('keydown',e=>{
+  if(e.key==' '&&e.target.tagName=='BUTTON')return;
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}
+  else if(e.key=='Home')go(0); else if(e.key=='End')go(slides.length-1);
+});
+let tx=null;
+addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(cur+(d<0?1:-1));tx=null});
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+document.getElementById('fs').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}};
+
+// Cuenta regresiva de 5:00 antes de empezar
+let left=300,timer=null;const clock=document.getElementById('clock');
+const show=()=>clock.textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0');
+document.getElementById('cdgo').onclick=e=>{
+  if(timer){clearInterval(timer);timer=null;e.target.textContent='Seguir';return}
+  e.target.textContent='Pausar';
+  timer=setInterval(()=>{left=Math.max(0,left-1);show();if(!left){clearInterval(timer);timer=null;e.target.textContent='Iniciar'}},1000);
+};
+document.getElementById('cdreset').onclick=()=>{clearInterval(timer);timer=null;left=300;show();document.getElementById('cdgo').textContent='Iniciar'};
+
+let start=0;try{start=+localStorage.getItem('ie-slide')||0}catch(e){}
+const fromHash=()=>+location.hash.slice(1)-1;
+go(location.hash?fromHash()||0:start);
+addEventListener('hashchange',()=>go(fromHash()||0));
+</script>
