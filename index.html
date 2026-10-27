@@ -167,13 +167,6 @@ button.ui:focus-visible{outline:3px solid var(--red);outline-offset:3px}
   </div>
 </section>
 
-<section class="slide" data-sec="0" data-notrack>
-  <div class="eyebrow">La ruta de esta noche · 55 minutos</div>
-  <h2>Así vamos a recorrer la masterclass</h2>
-  <p class="lead">Cada punto es una etapa. Abajo verás siempre en cuál estamos.</p>
-  <div class="agenda" id="agenda"></div>
-</section>
-
 <!-- ===== 1 · APERTURA ===== -->
 <section class="slide" data-sec="1">
   <div class="eyebrow">Apertura · 0–4 min</div>
@@ -597,9 +590,8 @@ function build(el,big){
       <span class="stem"></span><span class="pin"></span><span class="dot"></span><span class="lbl">${s.n}<i>${s.t}</i></span></button>`).join('');
   el.querySelectorAll('.node').forEach(b=>b.onclick=()=>go(slides.findIndex(s=>+s.dataset.sec==+b.dataset.i)));
 }
-const mini=document.getElementById('mini'),agenda=document.getElementById('agenda');
+const mini=document.getElementById('mini');
 build(mini,false);
-agenda.innerHTML='<div class="track"></div>';build(agenda.firstChild,true);
 
 let cur=0;
 function paint(trackEl,sec,frac){
@@ -612,8 +604,6 @@ function go(i){
   slides.forEach((s,k)=>s.classList.toggle('on',k==cur));
   const sec=+slides[cur].dataset.sec, inSec=slides.filter(s=>+s.dataset.sec==sec);
   paint(mini,sec,inSec.indexOf(slides[cur])/inSec.length);
-  paint(agenda.firstChild,sec,0);
-  mini.parentNode.style.visibility=slides[cur].hasAttribute('data-notrack')?'hidden':'';
   document.getElementById('count').textContent=String(cur+1).padStart(2,'0')+' / '+slides.length;
   try{localStorage.setItem('ie-slide',cur)}catch(e){}
   sendState();
